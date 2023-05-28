@@ -13,7 +13,7 @@ export default {
 <template>
   <Navbar />
   <div class="d-flex">
-    <div class="col-4">
+    <div class="col-3">
       <EntryList />
     </div>
     <div class="col">
