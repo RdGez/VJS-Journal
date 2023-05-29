@@ -1,29 +1,24 @@
-# journal-app
+<br>
+<p align="center">
+  <a href="https://vuejs.org/" target="blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1024px-Vue.js_Logo_2.svg.png?20170919082558" width="200" alt="Nest Logo" /></a>
+</p>
+<br>
 
-This template should help get you started developing with Vue 3 in Vite.
+# Journal App
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-yarn
+1. Execute `yarn` to install all dependencies.
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
-yarn dev
+$ yarn
 ```
+2. Compiles and hot-reloads for development.
+````
+$ yarn dev
+````
+3. To compile and minifiles for production build.
+````
+$ yarn build
+````
+<hr>
 
-### Compile and Minify for Production
-
-```sh
-yarn build
-```
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
