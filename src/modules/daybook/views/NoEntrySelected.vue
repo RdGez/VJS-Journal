@@ -5,10 +5,16 @@
       <h1 class="display-4">No entry selected...</h1>
     </div>
   </div>
+  <Fab />
 </template>
 
 <script>
-export default {};
+import { defineAsyncComponent } from 'vue';
+export default {
+  components: {
+    Fab: defineAsyncComponent(() => import('../components/Fab.vue'))
+  }
+};
 </script>
 
 <style lang="scss" scoped>
