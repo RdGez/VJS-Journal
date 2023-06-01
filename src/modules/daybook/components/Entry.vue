@@ -1,24 +1,35 @@
 <template>
   <div
     class="entry-container p-2"
-    @click="$router.push({ name: 'entry', params: { id: 10 } })"
+    @click="$router.push({ name: 'entry', params: { id: entry.id } })"
   >
     <div class="entry-date d-flex">
-      <span class="date">6 Mayo 2023, Sabado</span>
+      <span class="date">{{ entry.date }}</span>
     </div>
     <div class="entry-description">
       <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Doloremque
-        corrupti autem in ut, vero, consequatur assumenda officiis odit voluptas
-        id, voluptatibus saepe alias. Repellendus magnam eum ratione minus,
-        perspiciatis atque.
+        {{ truncatedText }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "Entry",
+  props: {
+    entry: {
+      type: Object,
+      required: true,
+    },
+  },
+  computed: {
+    truncatedText() {
+      const text = this.entry.text;
+      return text.length > 100 ? text.substr(0, 100) + "..." : text;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

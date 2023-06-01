@@ -4,9 +4,10 @@
       type="text"
       class="form-control"
       placeholder="Search..."
+      v-model="term"
     />
     <div class="entries">
-      <Entry v-for="item in 100" :key="item" />
+      <Entry v-for="entry in searchEntries" :entry="entry" :key="entry.id" />
     </div>
   </div>
 </template>
@@ -25,11 +26,23 @@
 
 <script>
 import { defineAsyncComponent } from 'vue'
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'EntryList',
   components: {
     Entry: defineAsyncComponent(() => import('./Entry.vue'))
   },
+  data(){
+    return {
+      term: ''
+    }
+  },
+  computed: {
+    ...mapGetters('journal', ['getEntriesByTerm']),
+    searchEntries(){
+      return this.getEntriesByTerm(this.term);
+    }
+  }
 }
 </script>

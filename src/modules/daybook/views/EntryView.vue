@@ -1,10 +1,8 @@
 <template>
   <div class="entry-view-limit">
-    <div
-      class="entry-title d-flex justify-content-between align-items-center p-3"
-    >
+    <div class="entry-title d-flex justify-content-between align-items-center p-3">
       <div class="">
-        <span class="date">06 Mayo 2023, Sabado</span>
+        <span class="date">{{ entry.date }}</span>
       </div>
       <div class="button-menu">
         <button class="btn btn-primary">
@@ -17,27 +15,56 @@
       </div>
     </div>
     <div class="d-flex flex-column px-3 h-50">
-      <QuillEditor theme="snow" />
-      <img
-        src="https://w.wallhaven.cc/full/m3/wallhaven-m3wrq8.png"
-        alt="Entry-Picture"
-        class="img-thumbnail"
-      />
+      <QuillEditor placeholder="What happened today?..." toolbar="essential" theme="snow" :content="entry.text"
+        contentType="html" />
+      <img src="https://w.wallhaven.cc/full/m3/wallhaven-m3wrq8.png" alt="Entry-Picture" class="img-thumbnail" />
     </div>
   </div>
   <Fab />
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
-import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import { defineAsyncComponent } from "vue";
+import { mapGetters } from "vuex";
+import { QuillEditor } from "@vueup/vue-quill";
 
 export default {
+  props: {
+    id: {
+      type: String,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      entry: null,
+    }
+  },
+  created() {
+    this.loadEntry();
+  },
   components: {
     QuillEditor,
     Fab: defineAsyncComponent(() => import("../components/Fab.vue")),
   },
+  computed: {
+    ...mapGetters("journal", ["getEntryById"]),
+  },
+  methods: {
+    loadEntry() {
+      const entry = this.getEntryById(this.id);
+      console.log(entry)
+      if (!entry) this.$router.push({ name: "no-entry" })
+
+      this.entry = entry;
+    }
+  },
+  watch: {
+    id() {
+      this.loadEntry();
+    }
+  }
 };
 </script>
 
@@ -47,6 +74,7 @@ export default {
   height: calc(100vh - 65px);
   overflow-y: scroll;
 }
+
 .entry-title {
   .btn-delete {
     position: relative;
