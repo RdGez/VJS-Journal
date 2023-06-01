@@ -1,13 +1,19 @@
 <template>
   <button class="btn btn-primary">
-    <img src="@/assets/plus.svg" alt="Add" width="30">
+    <img v-if="!isNew" src="@/assets/save.svg" alt="Add" width="30" />
+    <img v-else src="@/assets/plus.svg" alt="Add" width="30" />
   </button>
 </template>
 
 <script>
 export default {
-
-}
+  props: {
+    isNew: {
+      type: Boolean,
+      default: false,
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

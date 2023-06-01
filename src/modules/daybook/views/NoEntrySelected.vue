@@ -5,7 +5,7 @@
       <h1 class="display-4">No entry selected...</h1>
     </div>
   </div>
-  <Fab />
+  <Fab isNew='true' />
 </template>
 
 <script>

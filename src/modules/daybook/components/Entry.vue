@@ -1,5 +1,8 @@
 <template>
-  <div class="entry-container p-2">
+  <div
+    class="entry-container p-2"
+    @click="$router.push({ name: 'entry', params: { id: 10 } })"
+  >
     <div class="entry-date d-flex">
       <span class="date">6 Mayo 2023, Sabado</span>
     </div>
@@ -13,6 +16,10 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {};
+</script>
 
 <style lang="scss" scoped>
 .entry-container {

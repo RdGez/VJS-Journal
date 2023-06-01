@@ -9,7 +9,7 @@
     </a>
     <div class="d-flex">
       <div class="logout">
-        <img src="@/assets/off.svg" alt="Logout" />
+        Sign out
       </div>
     </div>
   </nav>
