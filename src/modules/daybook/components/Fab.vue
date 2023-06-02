@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-primary">
+  <button class="btn btn-primary" @click="$emit('on:click')">
     <img v-if="!isNew" src="@/assets/save.svg" alt="Add" width="30" />
     <img v-else src="@/assets/plus.svg" alt="Add" width="30" />
   </button>

@@ -15,19 +15,22 @@
       </div>
     </div>
     <div class="d-flex flex-column px-3 h-50">
-      <QuillEditor placeholder="What happened today?..." toolbar="essential" theme="snow" :content="entry.text"
+      <QuillEditor 
+        placeholder="What happened today?..." 
+        toolbar="essential" theme="snow" 
+        v-model:content="entry.text"
         contentType="html" />
       <img src="https://w.wallhaven.cc/full/m3/wallhaven-m3wrq8.png" alt="Entry-Picture" class="img-thumbnail" />
     </div>
   </div>
-  <Fab />
+  <Fab @on:click="saveEntry" />
 </template>
 
 <script>
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import { defineAsyncComponent } from "vue";
-import { mapGetters } from "vuex";
-import { QuillEditor } from "@vueup/vue-quill";
+import { mapActions, mapGetters } from "vuex";
+import { QuillEditor, Quill } from "@vueup/vue-quill";
 
 export default {
   props: {
@@ -38,7 +41,7 @@ export default {
   },
   data() {
     return {
-      entry: null,
+      entry: '',
     }
   },
   created() {
@@ -52,13 +55,29 @@ export default {
     ...mapGetters("journal", ["getEntryById"]),
   },
   methods: {
+    ...mapActions("journal", ["updateEntry", "addEntry"]),
     loadEntry() {
-      const entry = this.getEntryById(this.id);
-      console.log(entry)
-      if (!entry) this.$router.push({ name: "no-entry" })
+      let entry;
+      if (this.id === 'new') {
+        entry = {
+          date: new Date().toDateString(),
+          text: "<p></p>",
+        }
+      } else {
+        entry = this.getEntryById(this.id);
+        if (!entry) return this.$router.push({ name: "no-entry" })
+      }
 
       this.entry = entry;
-    }
+    },
+    async saveEntry() {
+      if( this.entry.id ) {
+        await this.updateEntry(this.entry);
+      } else {
+        const id = await this.addEntry(this.entry);
+        this.$router.push({ name: 'entry', params: { id } })
+      }
+    },
   },
   watch: {
     id() {

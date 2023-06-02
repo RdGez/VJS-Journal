@@ -6,6 +6,11 @@
       placeholder="Search..."
       v-model="term"
     />
+
+    <div @click="$router.push({ name: 'entry', params: { id: 'new'}})" class="newEntry">
+      <img src="@/assets/plus.svg" alt="">
+    </div>
+
     <div class="entries">
       <Entry v-for="entry in searchEntries" :entry="entry" :key="entry.id" />
     </div>
@@ -20,6 +25,22 @@
     .entries {
       height: calc(100vh - 120px);
       overflow-y: scroll;
+    }
+  }
+
+  .newEntry {
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      cursor: pointer;
+      background-color: #f3f3f349;
     }
   }
 </style>
