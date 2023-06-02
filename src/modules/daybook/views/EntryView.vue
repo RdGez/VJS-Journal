@@ -9,7 +9,7 @@
           Upload
           <img src="@/assets/upload.svg" alt="Upload" />
         </button>
-        <button class="btn btn-danger btn-delete ms-3">
+        <button v-if="entry.id" @click="onDeleteEntry" class="btn btn-danger btn-delete ms-3">
           <img class="icon" src="@/assets/trash.svg" alt="Delete" />
         </button>
       </div>
@@ -28,9 +28,11 @@
 
 <script>
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+import Swal from "sweetalert2";
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
-import { QuillEditor, Quill } from "@vueup/vue-quill";
+import { QuillEditor } from "@vueup/vue-quill";
+import { toastMixin } from "../../../shared/helpers/swal.toast";
 
 export default {
   props: {
@@ -55,7 +57,7 @@ export default {
     ...mapGetters("journal", ["getEntryById"]),
   },
   methods: {
-    ...mapActions("journal", ["updateEntry", "addEntry"]),
+    ...mapActions("journal", ["updateEntry", "addEntry", "deleteEntry"]),
     loadEntry() {
       let entry;
       if (this.id === 'new') {
@@ -76,6 +78,29 @@ export default {
       } else {
         const id = await this.addEntry(this.entry);
         this.$router.push({ name: 'entry', params: { id } })
+      }
+
+      toastMixin.fire({
+        icon: "success",
+        title: "Saved successfully!",
+      });
+    },
+    async onDeleteEntry() {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+      });
+
+      if (result.isConfirmed) {
+        await this.deleteEntry(this.entry.id);
+        this.$router.push({ name: "no-entry" });
+        toastMixin.fire({
+          icon: "success",
+          title: "Entry deleted successfully!",
+        });
       }
     },
   },
