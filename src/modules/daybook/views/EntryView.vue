@@ -5,7 +5,14 @@
         <span class="date">{{ entry.date }}</span>
       </div>
       <div class="button-menu">
-        <button class="btn btn-primary">
+        <input
+          type="file" 
+          ref="fileInput"
+          v-show="false" 
+          accept="image/png, image/jpeg, image/jpg, image/gif"
+          @change="onSelectedImage"
+        />
+        <button @click="onSelectImage" class="btn btn-primary">
           Upload
           <img src="@/assets/upload.svg" alt="Upload" />
         </button>
@@ -14,13 +21,14 @@
         </button>
       </div>
     </div>
-    <div class="d-flex flex-column px-3 h-50">
+    <div class="d-flex flex-column px-3 view h-full">
       <QuillEditor 
-        placeholder="What happened today?..." 
+        placeholder="What happened today?..."
         toolbar="essential" theme="snow" 
         v-model:content="entry.text"
         contentType="html" />
-      <img src="https://w.wallhaven.cc/full/m3/wallhaven-m3wrq8.png" alt="Entry-Picture" class="img-thumbnail" />
+      <!-- <img src="https://w.wallhaven.cc/full/m3/wallhaven-m3wrq8.png" alt="Entry-Picture" class="img-thumbnail" /> -->
+      <img v-if="localImage" :src="localImage" alt="Entry-Picture" class="img-thumbnail" />
     </div>
   </div>
   <Fab @on:click="saveEntry" />
@@ -44,6 +52,8 @@ export default {
   data() {
     return {
       entry: '',
+      file: null,
+      localImage: null,
     }
   },
   created() {
@@ -103,6 +113,19 @@ export default {
         });
       }
     },
+    onSelectedImage( $event ) {
+      const file = $event.target.files[0]
+      if (!file) return
+
+      this.file = file
+
+      const fr = new FileReader()
+      fr.onload = () => this.localImage = fr.result
+      fr.readAsDataURL(file)
+    },
+    onSelectImage() {
+      this.$refs.fileInput.click()
+    }
   },
   watch: {
     id() {
@@ -138,5 +161,9 @@ export default {
     font-size: 0.9rem;
     color: #7f8c8d;
   }
+}
+
+.view {
+  height: calc(100vh - 120px);
 }
 </style>
