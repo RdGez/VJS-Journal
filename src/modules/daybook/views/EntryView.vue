@@ -27,8 +27,8 @@
         toolbar="essential" theme="snow" 
         v-model:content="entry.text"
         contentType="html" />
-      <!-- <img src="https://w.wallhaven.cc/full/m3/wallhaven-m3wrq8.png" alt="Entry-Picture" class="img-thumbnail" /> -->
-      <img v-if="localImage" :src="localImage" alt="Entry-Picture" class="img-thumbnail" />
+      <img v-if="entry.picture" :src="entry.picture" alt="Entry-Picture" class="img-thumbnail" />
+      <img v-if="localImage && !entry.picture" :src="localImage" alt="Entry-Picture" class="img-thumbnail" />
     </div>
   </div>
   <Fab @on:click="saveEntry" />
@@ -41,6 +41,7 @@ import { defineAsyncComponent } from "vue";
 import { mapActions, mapGetters } from "vuex";
 import { QuillEditor } from "@vueup/vue-quill";
 import { toastMixin } from "../../../shared/helpers/swal.toast";
+import uploadImage from "../../../shared/helpers/upload.cloudinary";
 
 export default {
   props: {
@@ -83,6 +84,8 @@ export default {
       this.entry = entry;
     },
     async saveEntry() {
+      if (this.file) githis.entry.picture = await uploadImage(this.file);
+
       if( this.entry.id ) {
         await this.updateEntry(this.entry);
       } else {

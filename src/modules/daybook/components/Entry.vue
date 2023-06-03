@@ -26,7 +26,7 @@ export default {
   computed: {
     truncatedText() {
       let text = this.entry.text;
-      text = text.replace(/<[^>]*>?/gm, "");
+      text = text.replace(/<[^>]*>?/gm, " ");
       return text.length > 100 ? text.substr(0, 100) + "..." : text;
     }
   }
