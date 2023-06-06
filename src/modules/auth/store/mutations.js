@@ -1,0 +1,1 @@
+// export const myMutation = (state, payload) => { state.something = payload }
