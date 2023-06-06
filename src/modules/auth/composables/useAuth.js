@@ -1,3 +1,4 @@
+import { computed } from "vue"
 import { useStore } from "vuex"
 
 const useAuth = () => {
@@ -9,6 +10,10 @@ const useAuth = () => {
 
   const signIn = async (user) => {
     return await store.dispatch('auth/signIn', user)
+  }
+
+  const signOut = async () => {
+    return await store.dispatch('auth/signOut')
   }
 
   const checkAuthentication = async () => {
@@ -33,7 +38,15 @@ const useAuth = () => {
     }
   }
 
-  return { signUp, signIn, checkAuthentication, manageAuthError }
+  return { 
+    checkAuthentication, 
+    manageAuthError,
+    signIn, 
+    signUp,
+    signOut,
+    username: computed(() => store.getters['auth/userName']),
+    authStatus: computed(() => store.getters['auth/currentState']),
+  }
 }
 
 export default useAuth

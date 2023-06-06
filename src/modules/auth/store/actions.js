@@ -35,6 +35,11 @@ export const signIn = async ({ commit }, user) => {
   }
 }
 
+export const signOut = async ({ commit }) => {
+  commit('logout')
+  return { ok: true, message: 'Sign Out Successfully!'}
+}
+
 export const checkAuthentication = async ({ commit }) => {
   const idToken = localStorage.getItem('idToken')
   const refreshToken = localStorage.getItem('refreshToken')
