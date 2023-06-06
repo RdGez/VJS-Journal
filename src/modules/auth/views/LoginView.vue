@@ -3,17 +3,45 @@
     <span class="material-icons">👋🏻</span>
     Sign In
   </h1>
-  <form class="form-data" action="">
-    <input autofocus type="email" placeholder="E-mail" required />
-    <input type="password" placeholder="Password" required />
-    <button>Sign In</button>
+  <form class="form-data" @submit.prevent="onSubmit">
+    <input autofocus type="email" placeholder="E-mail" v-model="userForm.email" required />
+    <input type="password" placeholder="Password" v-model="userForm.password" required />
+    <button type="submit">Sign In</button>
   </form>
   <RouterLink :to="{ name: 'signup' }" class="go-register">Do not have an account yet? Sign up</RouterLink>
 </template>
 
 <script>
-export default {
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
+import useAuth from '../composables/useAuth'
 
+export default {
+  setup() {
+    const router = useRouter()
+    const { signIn, manageAuthError } = useAuth()
+    const userForm = ref({
+      email: 'rdgez.oscar@gmail.com',
+      password: 'RdGz2306.'
+    })
+
+    return {
+      userForm,
+      onSubmit: async () => {
+        const { ok, message } = await signIn(userForm.value)
+        if (!ok) Swal.fire({
+          timer: 2500,
+          icon: 'error',
+          timerProgressBar: true,
+          showConfirmButton: false,
+          text: manageAuthError(message),
+        })
+
+        router.push({ name: 'no-entry' })
+      }
+    }
+  }
 }
 </script>
 
