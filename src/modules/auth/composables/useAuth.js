@@ -11,6 +11,10 @@ const useAuth = () => {
     return await store.dispatch('auth/signIn', user)
   }
 
+  const checkAuthentication = async () => {
+    return await store.dispatch('auth/checkAuthentication')
+  }
+
   const manageAuthError = (error) => {
     console.log(error)
     switch (error) {
@@ -29,7 +33,7 @@ const useAuth = () => {
     }
   }
 
-  return { signUp, signIn, manageAuthError }
+  return { signUp, signIn, checkAuthentication, manageAuthError }
 }
 
 export default useAuth

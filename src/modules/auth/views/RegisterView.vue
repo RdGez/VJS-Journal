@@ -23,9 +23,9 @@ export default {
     const router = useRouter()
     const { signUp, manageAuthError } = useAuth()
     const userForm = ref({
-      name: 'Oscar Rodriguez',
-      email: 'rdgez.oscar@gmail.com',
-      password: 'RdGz2306.'
+      name: '',
+      email: '',
+      password: ''
     })
 
     return {
