@@ -14,21 +14,34 @@
 
 <script>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 import useAuth from '../composables/useAuth'
 
 export default {
   setup() {
-    const { signUp } = useAuth()
-
+    const router = useRouter()
+    const { signUp, manageAuthError } = useAuth()
     const userForm = ref({
-      name: 'Oscar Rodriguez',
-      email: 'rdgez.oscar@gmail.com',
-      password: 'RdGz2306.'
+      name: '',
+      email: '',
+      password: ''
     })
 
     return {
       userForm,
-      onSubmit: async () => await signUp(userForm.value)
+      onSubmit: async () => {
+        const { ok, message } = await signUp(userForm.value)
+        if (!ok) Swal.fire({
+          timer: 2500,
+          icon: 'error',
+          timerProgressBar: true,
+          showConfirmButton: false,
+          text: manageAuthError(message),
+        })
+
+        router.push({ name: 'no-entry' })
+      }
     }
   }
 }
