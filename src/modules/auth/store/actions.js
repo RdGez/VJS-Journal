@@ -7,7 +7,11 @@ export const signUp = async ({ commit }, user) => {
     const { data } = await authApi.post(':signUp', { email, password, returnSecureToken: true })
     const { idToken, refreshToken } = data
 
-    const response = await authApi.post(':update', { displayName: name, idToken })
+    await authApi.post(':update', { displayName: name, idToken })
+
+    delete user.password
+    commit('signIn', { user, idToken, refreshToken })
+    
     return { ok: true, message: 'User created successfully!'}
   } catch (error) {
     return { ok: false, message: error.response.data.error.message }
