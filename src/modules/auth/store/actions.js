@@ -62,3 +62,8 @@ export const checkAuthentication = async ({ commit }) => {
     return { ok: false, message: 'User not authenticated!'}
   }
 }
+
+export const logout = async ({ commit }) => {
+  commit('logout')
+  return { ok: true, message: 'Sign Out Successfully!'}
+}

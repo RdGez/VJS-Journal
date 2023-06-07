@@ -13,6 +13,7 @@ const useAuth = () => {
   }
 
   const signOut = async () => {
+    store.commit('journal/clearEntries')
     return await store.dispatch('auth/signOut')
   }
 
